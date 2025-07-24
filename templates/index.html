@@ -27,25 +27,15 @@
         <option value="flashcard">Flashcard Helper</option>
       </select>
       <div class="input-row">
-        <input
-          type="text"
-          id="msg"
-          placeholder="Type your message or describe your image..."
-        />
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          style="max-width: 150px"
-        /><input type="checkbox" id="noThink" />
-        <label for="noThink" style="color: #e0e0e0; cursor: pointer"
-          >No Think</label
-        >
-        <button type="button" onclick="sendMessage()">Send</button>
-      </div>
-      <div
-        style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"
-      ></div>
+        input type="checkbox" id="noThink"> No Think
+    <input type="checkbox" id="stream"> Stream Response
+    <input type="checkbox" id="tts"> Enable TTS
+    <ul id="chat"></ul>
+    <input type="text" id="msg" placeholder="Type message">
+    <input type="file" id="image">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="uploadImage()">Upload Image</button>
+    <button onclick="fetchImage()">Fetch Image</button>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

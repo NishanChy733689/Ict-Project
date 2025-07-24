@@ -1,56 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>AI Personality Chat</title>
-    <link
-      rel="stylesheet"
-      href="style.css"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  </head>
-  <body>
-    <div class="chat-container">
-      <ul id="chat" style="list-style: none"></ul>
-    </div>
-    <div class="controls-area">
-      <select id="personality">
-        <option value="teacher">Teacher</option>
-        <option value="detective">Detective</option>
-        <option value="friend">Friend</option>
-        <option value="study">Study Assistant</option>
-        <option value="quizmaster">Quizmaster</option>
-        <option value="explainer">Explainer</option>
-        <option value="motivator">Motivator</option>
-        <option value="note_taker">Note Taker</option>
-        <option value="examiner">Examiner</option>
-        <option value="flashcard">Flashcard Helper</option>
-      </select>
-      <div class="input-row">
-        <input
-          type="text"
-          id="msg"
-          placeholder="Type your message or describe your image..."
-        />
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          style="max-width: 150px;"
-        /><input type="checkbox" id="noThink" />
-        <label for="noThink" style="color: #e0e0e0; cursor: pointer"
-          >No Think</label
-        >
-        <button type="button" onclick="sendMessage()">Send</button>
-      </div>
-      <div
-        style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"
-      >
-        
-      </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+<html>
+<head>
+  <title>Smart Study Bot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div id="app">
+    <select id="personality">
+      <option value="teacher">Teacher</option>
+      <option value="friend">Friend</option>
+      <option value="study">Study Assistant</option>
+      <option value="quizmaster">Quizmaster</option>
+    </select>
+    <input type="checkbox" id="noThink"> No Think
+    <input type="checkbox" id="stream"> Stream Response
+    <input type="checkbox" id="tts"> Enable TTS
+    <ul id="chat"></ul>
+    <input type="text" id="msg" placeholder="Type message">
+    <input type="file" id="image">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="uploadImage()">Upload Image</button>
+    <button onclick="fetchImage()">Fetch Image</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
 </html>
