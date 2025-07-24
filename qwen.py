@@ -21,7 +21,7 @@ class QwenChatbot:
 
     def set_personality(self, personality):
         if not self.history or self.history[0].get("role") != "system":
-            self.history.insert(0, {"role": "system", "content": personality})
+            self.history.insert(0, {"role": "system", "content": personality+". Make sure to use as much as emojies as possible"})
         else:
             self.history[0]["content"] = personality
         print(f"setting personality to {personality}")
