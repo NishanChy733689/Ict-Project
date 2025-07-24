@@ -2,8 +2,8 @@ async function sendMessage() {
   const msgInput = document.getElementById("msg");
   const imageInput = document.getElementById("image");
   const chatBox = document.getElementById("chat");
-  const personality = document.getElementById("personality").value;
-  const noThink = document.getElementById("noThink").checked;
+  let personality = document.getElementById("personality").value;
+  let noThink = document.getElementById("noThink").checked;
 
   let message = msgInput.value.trim();
   const imageFile = imageInput.files[0];

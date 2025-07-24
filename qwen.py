@@ -42,7 +42,7 @@ class QwenChatbot:
         self.history.append({"role": "assistant", "content": response})
         print({"role": "user", "content": user_input})
         print("\n\n")
-        print({"role": "assistant", "content": response}+"\n\n")
+        print({"role": "assistant", "content": response})
         gc.collect()
         return response
 
