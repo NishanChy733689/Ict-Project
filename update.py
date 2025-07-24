@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, Response, stream_with_context
+from flask import Flask, render_template, request, jsonify, session
 from qwen import QwenChatbot
 import easyocr
 import os
@@ -6,6 +6,7 @@ import re
 import uuid
 import time
 import webbrowser
+
 class AppManager:
     def __init__(self):
         self.app = Flask(__name__)
@@ -28,7 +29,6 @@ class AppManager:
 
         self.reader = easyocr.Reader(['en'], gpu=True)
         self.chatbots = {}
-
         self.setup_routes()
 
     def get_sid(self):
@@ -109,26 +109,9 @@ class AppManager:
             url = f"https://source.unsplash.com/600x400/?{topic}"
             return jsonify({"reply": f"<img src='{url}' alt='Image of {topic}' style='max-width:100%;border-radius:10px;' />"})
 
-        @self.app.route("/chat_stream", methods=["POST"])
-        def chat_stream():
-            data = request.json or {}
-            user_input = data.get("message", "")
-            personality_key = data.get("personality", "teacher")
-
-            chatbot = self.get_chatbot()
-            chatbot.set_personality(self.personalities.get(personality_key, self.personalities["teacher"]))
-
-            def generate_response_stream():
-                # Example: if your chatbot has a generator method to yield chunks
-                for chunk in chatbot.stream_generate(user_input):
-                    yield chunk
-
-            return Response(stream_with_context(generate_response_stream()), mimetype="text/plain")
-
     def run(self):
         webbrowser.open_new_tab("http://127.0.0.1:5000")
         self.app.run(host="0.0.0.0", port=5000)
-
 
 if __name__ == "__main__":
     manager = AppManager()

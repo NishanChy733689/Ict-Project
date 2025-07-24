@@ -41,53 +41,10 @@ class QwenChatbot:
         self.history.append({"role": "user", "content": user_input})
         self.history.append({"role": "assistant", "content": response})
         print({"role": "user", "content": user_input})
-        print("\n\n\n\n")
-        print({"role": "assistant", "content": response})
+        print("\n\n")
+        print({"role": "assistant", "content": response}+"\n\n")
         gc.collect()
         return response
-
-    def stream_generate(self, user_input):
-        """
-        Yields partial output chunks during generation for streaming responses.
-        """
-        messages = self.history + [{"role": "user", "content": user_input}]
-        text = self.tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-        )
-        inputs = self.tokenizer(text, return_tensors="pt").to(self.device)
-
-        # Use generate with output_scores and return_dict_in_generate to access intermediate tokens
-        output_ids = inputs.input_ids
-        generated_text = ""
-
-        # Use `generate` with `max_new_tokens` and `return_dict_in_generate` to get tokens stepwise
-        # `stopping_criteria` can be added if needed.
-        gen_kwargs = {
-            "max_new_tokens": 1024,
-            "do_sample": False,
-            "output_scores": True,
-            "return_dict_in_generate": True,
-        }
-        output = self.model.generate(**inputs, **gen_kwargs)
-
-        generated_ids = output.sequences[0][len(output_ids[0]):]
-
-        for i in range(len(generated_ids)):
-            chunk_ids = generated_ids[: i + 1]
-            chunk_text = self.tokenizer.decode(chunk_ids, skip_special_tokens=True)
-            # To avoid sending entire output every time, send only new text since last yield
-            new_text = chunk_text[len(generated_text) :]
-            if new_text:
-                yield new_text
-                generated_text = chunk_text
-
-        # Update history fully at the end
-        full_response = generated_text
-        self.history.append({"role": "user", "content": user_input})
-        self.history.append({"role": "assistant", "content": full_response})
-        gc.collect()
 
 # Example Usage
 if __name__ == "__main__":
